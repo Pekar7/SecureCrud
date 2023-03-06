@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 @Entity
 @Data
@@ -18,7 +17,7 @@ public class UserInfo {
     private int id;
 
     @Column(name = "name")
-    private String name;
+    private String userName;
 
     @Column(name = "email")
     private String email;

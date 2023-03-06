@@ -1,7 +1,6 @@
 package com.example.crud.controller;
 
 import com.example.crud.model.Card;
-import com.example.crud.service.CardRepository;
 import com.example.crud.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +37,5 @@ public class CardController {
     public String deleteById(@PathVariable Long id) {
         return cardService.deleteCard(id);
     }
-
-
 
 }
