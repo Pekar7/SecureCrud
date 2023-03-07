@@ -17,10 +17,7 @@ public class UserInfo {
     private int id;
 
     @Column(name = "name")
-    private String userName;
-
-    @Column(name = "email")
-    private String email;
+    private String username;
 
     @Column(name = "password")
     private String password;

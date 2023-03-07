@@ -15,7 +15,7 @@ public class UserInfoUserDetails implements UserDetails {
     private Set<SimpleGrantedAuthority> authorities;
 
     public UserInfoUserDetails(UserInfo userInfo) {
-        userName=userInfo.getUserName();
+        userName=userInfo.getUsername();
         password=userInfo.getPassword();
         authorities= userInfo.getRoles().getAuthorities();
     }
