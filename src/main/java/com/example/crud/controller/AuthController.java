@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -45,22 +46,22 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UserInfo loginDto) {
+    public Object login(@RequestBody UserInfo loginDto) {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 loginDto.getUsername(),
                 loginDto.getPassword());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        Optional<UserInfo> savedPassword = userInfoRepository.findUserInfoByUsername(loginDto.getUsername());
+        Optional<UserInfo> savedUser = userInfoRepository.findUserInfoByUsername(loginDto.getUsername());
 
-        if (savedPassword.isPresent()) {
-            if (passwordEncoder.matches(loginDto.getPassword(), savedPassword.get().getPassword()) && loginDto.getUsername().equals(savedPassword.get().getUsername())) {
-                return String.valueOf(savedPassword.get().getId());
-            } else if (!(passwordEncoder.matches(loginDto.getPassword(), savedPassword.get().getPassword())) && loginDto.getUsername().equals(savedPassword.get().getUsername())){
-                return "Не верный логин/пароль";
+        if (savedUser.isPresent()) {
+            if (passwordEncoder.matches(loginDto.getPassword(), savedUser.get().getPassword()) && loginDto.getUsername().equals(savedUser.get().getUsername())) {
+                return savedUser.get();
+            } else if (!(passwordEncoder.matches(loginDto.getPassword(), savedUser.get().getPassword())) && loginDto.getUsername().equals(savedUser.get().getUsername())){
+                return new ResponseStatusException(HttpStatus.BAD_REQUEST, "Неверный логин/пароль");
             }
         }
 
-        return "Пользователь " + loginDto.getUsername() + " не зарегистрирован";
+        return new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь не существует");
 
     }
 }
