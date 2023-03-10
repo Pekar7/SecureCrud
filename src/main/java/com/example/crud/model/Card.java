@@ -2,7 +2,6 @@ package com.example.crud.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 @Data
 @Entity
